@@ -14,18 +14,23 @@
             <input type="text" id="cpf" v-model="usuario.cpf" class="form-control mb-3 rounded-input">
 
             <p class="mb-3 mt-5">Endereço:</p>
-            <label for="rua">Rua:</label>
-            <input type="text" id="rua" v-model="endereco.rua" class="form-control mb-3 rounded-input">
+            <div v-for="(endereco, index) in enderecos" :key="index">
+                <label for="rua">Rua:</label>
+                <input type="text" v-model="endereco.rua" class="form-control mb-3 rounded-input">
 
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" v-model="endereco.cidade" class="form-control mb-3 rounded-input">
+                <label for="cidade">Cidade:</label>
+                <input type="text" v-model="endereco.cidade" class="form-control mb-3 rounded-input">
 
-            <label for="estado">Estado:</label>
-            <input type="text" id="estado" v-model="endereco.estado" class="form-control mb-3 rounded-input">
+                <label for="estado">Estado:</label>
+                <input type="text" v-model="endereco.estado" class="form-control mb-3 rounded-input">
 
-            <label for="cep">CEP:</label>
-            <input type="text" id="cep" v-model="endereco.cep" class="form-control mb-3 rounded-input">
-            
+                <label for="cep">CEP:</label>
+                <input type="text" v-model="endereco.cep" class="form-control mb-3 rounded-input">
+
+                <button type="button" @click="removeEndereco(index)" class="btn btn-danger d-flex justify-content-between mb-3">Remover Endereço</button>
+            </div>
+            <button type="button" @click="addEndereco" class="btn btn-primary">Adicionar Endereço</button>
+
             <p class="mb-3 mt-5">Tipo de Perfil:</p>
             <label for="perfil">Perfil:</label>
             <select id="perfil" v-model="perfil.nome" class="form-control mb-3 rounded-input">
@@ -45,76 +50,83 @@ export default {
     name: 'Usuario,Endereco,Perfil',
     data() {
         return {
-            result: {},
             usuario: {
-                id: '',
                 nome: '',
                 email: '',
                 cpf: ''
             },
-            endereco: {
-                id: '',
-                rua: '',
-                cidade: '',
-                estado: '',
-                cep: ''
-            },
+            enderecos: [],
             perfil: {
-                id: '',
                 nome: ''
             }
         }
     },
     methods: {
         save() {
-            if (this.endereco.id == '' || this.perfil.id == '' || this.usuario.id == '') {
+            if (this.validateForm()) {
                 this.saveData();
+            } else {
+                alert("Por favor, preencha todos os campos obrigatórios.");
             }
         },
+        validateForm() {
+            if (!this.usuario.nome || !this.usuario.email || !this.usuario.cpf || !this.perfil.nome) {
+                return false;
+            }
+            if (this.enderecos.length === 0) {
+                return false;
+            }
+            for (let endereco of this.enderecos) {
+                if (!endereco.rua || !endereco.cidade || !endereco.estado || !endereco.cep) {
+                    return false;
+                }
+            }
+            return true;
+        },
         saveData() {
-            let usuarioId, enderecoId;
+            let usuarioId, perfilId, enderecoIds = [];
 
             axios.post("http://127.0.0.1:8000/api/perfil", this.perfil)
                 .then(({ data }) => {
+                    perfilId = data.id;
 
-                    this.perfil.nome = '';
-                    this.perfil.id = '';
-
-                    this.usuario.perfil_id = data.id;
-
-                    return axios.post("http://127.0.0.1:8000/api/usuario", this.usuario);
-                })
-                .then(({ data }) => {
-
-                    usuarioId = data.id;
-
-                    this.usuario.nome = '';
-                    this.usuario.email = '';
-                    this.usuario.cpf = '';
-
-                    return axios.post("http://127.0.0.1:8000/api/endereco", this.endereco);
-                })
-                .then(({ data }) => {
-
-                    enderecoId = data.id;
-
-                    this.endereco.rua = '';
-                    this.endereco.cidade = '';
-                    this.endereco.estado = '';
-                    this.endereco.cep = '';
-                    this.endereco.id = '';
-
-                    return axios.post("http://127.0.0.1:8000/api/endereco_usuario", {
-                        usuario_id: usuarioId,
-                        endereco_id: enderecoId
+                    return axios.post("http://127.0.0.1:8000/api/usuario", {
+                        ...this.usuario,
+                        perfil_id: perfilId
                     });
                 })
                 .then(({ data }) => {
+                    usuarioId = data.id;
+
+                    return Promise.all(this.enderecos.map(endereco => {
+                        return axios.post("http://127.0.0.1:8000/api/endereco", endereco)
+                            .then(({ data }) => {
+                                enderecoIds.push(data.id);
+
+                                return axios.post("http://127.0.0.1:8000/api/endereco_usuario", {
+                                    usuario_id: usuarioId,
+                                    endereco_id: data.id
+                                });
+                            });
+                    }));
+                })
+                .then(() => {
                     alert("Usuário Cadastrado com sucesso!");
                 })
                 .catch(error => {
                     console.error("Ocorreu um erro:", error);
                 });
+        },
+        addEndereco() {
+            this.enderecos.push({
+                rua: '',
+                cidade: '',
+                estado: '',
+                cep: ''
+            });
+        },
+        removeEndereco(index) {
+            this.enderecos.splice(index, 1);
         }
     }
 }
