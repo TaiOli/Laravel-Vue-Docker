@@ -7,12 +7,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 import App from './components/App.vue';
 import UsuarioCadastro from './components/UsuarioCadastro.vue';
 import UsuarioLista from './components/UsuarioLista.vue';
+import EditarCadastro from './components/EditarCadastro.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', component: UsuarioLista },
-        { path: '/cadastro', component: UsuarioCadastro }
+        { path: '/cadastro', component: UsuarioCadastro },
+        {
+            path: '/usuarios/:id/edit',
+            name: 'EditarCadastro',
+            component: EditarCadastro
+        }
     ]
 });
 

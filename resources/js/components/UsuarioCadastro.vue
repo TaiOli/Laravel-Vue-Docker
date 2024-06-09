@@ -27,7 +27,8 @@
                 <label for="cep">CEP:</label>
                 <input type="text" v-model="endereco.cep" class="form-control mb-3 rounded-input">
 
-                <button type="button" @click="removeEndereco(index)" class="btn btn-danger d-flex justify-content-between mb-3">Remover Endereço</button>
+                <button type="button" @click="removeEndereco(index)"
+                    class="btn btn-danger d-flex justify-content-between mb-3">Remover Endereço</button>
             </div>
             <button type="button" @click="addEndereco" class="btn btn-primary">Adicionar Endereço</button>
 
@@ -50,6 +51,7 @@ export default {
     name: 'Usuario,Endereco,Perfil',
     data() {
         return {
+            // Dados do usuário a serem cadastrados
             usuario: {
                 nome: '',
                 email: '',
@@ -62,6 +64,7 @@ export default {
         }
     },
     methods: {
+        // Método para salvar os dados do usuário
         save() {
             if (this.validateForm()) {
                 this.saveData();
@@ -69,6 +72,7 @@ export default {
                 alert("Por favor, preencha todos os campos obrigatórios.");
             }
         },
+        // Validando o formulário
         validateForm() {
             if (!this.usuario.nome || !this.usuario.email || !this.usuario.cpf || !this.perfil.nome) {
                 return false;
@@ -83,6 +87,7 @@ export default {
             }
             return true;
         },
+        // Método para enviar os dados do usuário
         saveData() {
             let usuarioId, perfilId, enderecoIds = [];
 
@@ -117,6 +122,7 @@ export default {
                     console.error("Ocorreu um erro:", error);
                 });
         },
+        // Adiciona um novo endereço à lista de endereços do usuário
         addEndereco() {
             this.enderecos.push({
                 rua: '',
@@ -125,6 +131,7 @@ export default {
                 cep: ''
             });
         },
+        // Remove um endereço da lista de endereços do usuário
         removeEndereco(index) {
             this.enderecos.splice(index, 1);
         }
