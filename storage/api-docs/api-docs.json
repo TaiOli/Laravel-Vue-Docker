@@ -1,0 +1,567 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API",
+        "description": " Este projeto é um sistema de CRUD (Create, Read, Update, Delete) para cadastro de usuários, desenvolvido com Laravel, Vue.js e Docker. O sistema permite a criação, visualização, atualização e exclusão de registros de usuários em uma aplicação web moderna.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/endereco": {
+            "get": {
+                "summary": "Lista todos os endereços",
+                "operationId": "9c10249b6d54a91b77e519f61d558174",
+                "responses": {
+                    "200": {
+                        "description": "Lista de endereços",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Endereco"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo endereço",
+                "operationId": "3768fdb817d263ccfb30b72455588fb5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "logradouro",
+                                    "numero",
+                                    "bairro",
+                                    "cidade",
+                                    "estado",
+                                    "cep"
+                                ],
+                                "properties": {
+                                    "logradouro": {
+                                        "type": "string"
+                                    },
+                                    "numero": {
+                                        "type": "string"
+                                    },
+                                    "bairro": {
+                                        "type": "string"
+                                    },
+                                    "cidade": {
+                                        "type": "string"
+                                    },
+                                    "estado": {
+                                        "type": "string"
+                                    },
+                                    "cep": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Endereço criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Endereco"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/endereco/{id}": {
+            "get": {
+                "summary": "Mostra um endereço específico",
+                "operationId": "89633b570adedbd1118e73e6f7d39ab0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do endereço",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Endereco"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/endereco_usuario": {
+            "get": {
+                "summary": "Lista todos os endereços dos usuários",
+                "operationId": "10c3130a203022253c1074038ad5ae24",
+                "responses": {
+                    "200": {
+                        "description": "Lista de endereços dos usuários",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/EnderecoUsuario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo endereço de usuário",
+                "operationId": "5e63864c32280c5990e636749bd435ef",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "usuario_id",
+                                    "endereco_id"
+                                ],
+                                "properties": {
+                                    "usuario_id": {
+                                        "description": "ID do usuário",
+                                        "type": "integer"
+                                    },
+                                    "endereco_id": {
+                                        "description": "ID do endereço",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Endereço de usuário criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnderecoUsuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/endereco_usuario/{id}": {
+            "get": {
+                "summary": "Mostra um endereço de usuário específico",
+                "operationId": "6b40942adcf5ac085814672b8004c269",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do endereço de usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnderecoUsuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço de usuário não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/perfil": {
+            "get": {
+                "summary": "Lista todos os perfis",
+                "operationId": "3a8e08fdf84c78a7b023e3f21fac88cb",
+                "responses": {
+                    "200": {
+                        "description": "Lista de perfis",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Perfil"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo perfil",
+                "operationId": "88d3e9750b7baa4f953acbc9744a13d7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do perfil",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Perfil criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Perfil"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/perfil/{id}": {
+            "put": {
+                "summary": "Atualiza os dados de um perfil",
+                "operationId": "658c5fcf1be4d675af94be80dbbde48b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do perfil",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Perfil"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Perfil não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/usuario": {
+            "get": {
+                "summary": "Lista todos os usuários",
+                "operationId": "5f08371670ce270a0e6577fae9539512",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuários",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Usuario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo usuário",
+                "operationId": "d5e32171c128f56efd1872d1ec23f2c8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usuario/{id}": {
+            "get": {
+                "summary": "Mostra um usuário específico",
+                "operationId": "3578cec20dc77ec76383f2a46f907876",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualiza um usuário existente",
+                "operationId": "ea3d8c0180893fb3e107fae2b843db85",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuário atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Usuario"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deleta um usuário",
+                "operationId": "ab48b3f880701f25e88fd267382fe63c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuário deletado com sucesso"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Endereco": {
+                "required": [
+                    "logradouro",
+                    "numero",
+                    "bairro",
+                    "cidade",
+                    "estado",
+                    "cep"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID do endereço",
+                        "type": "integer"
+                    },
+                    "logradouro": {
+                        "description": "Logradouro do endereço",
+                        "type": "string"
+                    },
+                    "numero": {
+                        "description": "Número do endereço",
+                        "type": "string"
+                    },
+                    "bairro": {
+                        "description": "Bairro do endereço",
+                        "type": "string"
+                    },
+                    "cidade": {
+                        "description": "Cidade do endereço",
+                        "type": "string"
+                    },
+                    "estado": {
+                        "description": "Estado do endereço",
+                        "type": "string"
+                    },
+                    "cep": {
+                        "description": "CEP do endereço",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "EnderecoUsuario": {
+                "properties": {
+                    "id": {
+                        "description": "ID do endereço do usuário",
+                        "type": "integer"
+                    },
+                    "usuario_id": {
+                        "description": "ID do usuário",
+                        "type": "integer"
+                    },
+                    "endereco_id": {
+                        "description": "ID do endereço",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "Perfil": {
+                "properties": {
+                    "id": {
+                        "description": "ID do perfil",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome do perfil",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Usuario": {
+                "properties": {
+                    "id": {
+                        "description": "ID do usuário",
+                        "type": "integer"
+                    },
+                    "nome": {
+                        "description": "Nome do usuário",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email do usuário",
+                        "type": "string",
+                        "format": "email"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

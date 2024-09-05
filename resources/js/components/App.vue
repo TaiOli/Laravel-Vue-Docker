@@ -4,6 +4,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex">
                     <router-link to="/" id="home" class="nav-link text-dark">Início</router-link>
+                    <router-link to="/docs" id="docs" class="nav-link text-dark">Documentação API</router-link>
                 </div>
                 <div>
                     <router-link to="/cadastro" id="cadastrar" class="btn btn-primary">Cadastrar</router-link>
