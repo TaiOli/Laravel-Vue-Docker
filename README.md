@@ -21,3 +21,7 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
 
 - [Docker](https://docs.docker.com/get-docker/): Plataforma de contêineres para criar, executar e gerenciar ambientes de desenvolvimento.
 - [Docker Compose](https://docs.docker.com/compose/install/): Ferramenta para definir e executar aplicativos Docker multi-contêiner.
+
+## Documentação da API
+
+Este projeto utiliza Swagger para a documentação da API. A documentação Swagger fornece uma interface interativa para explorar e testar as APIs disponíveis.
