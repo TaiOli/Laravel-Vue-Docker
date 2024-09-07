@@ -29,21 +29,6 @@ use OpenApi\Annotations as OA;
  * )
  */
 
- /**
- * @OA\Schema(
- *     schema="Endereco",
- *     type="object",
- *     required={"logradouro", "numero", "bairro", "cidade", "estado", "cep"},
- *     @OA\Property(property="id", type="integer", description="ID do endereço"),
- *     @OA\Property(property="logradouro", type="string", description="Logradouro do endereço"),
- *     @OA\Property(property="numero", type="string", description="Número do endereço"),
- *     @OA\Property(property="bairro", type="string", description="Bairro do endereço"),
- *     @OA\Property(property="cidade", type="string", description="Cidade do endereço"),
- *     @OA\Property(property="estado", type="string", description="Estado do endereço"),
- *     @OA\Property(property="cep", type="string", description="CEP do endereço")
- * )
- */
-
 class EnderecoController extends Controller
 {
 
