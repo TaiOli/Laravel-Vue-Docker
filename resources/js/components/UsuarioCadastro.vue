@@ -91,11 +91,11 @@ export default {
         saveData() {
             let usuarioId, perfilId, enderecoIds = [];
 
-            axios.post("http://127.0.0.1:8000/api/perfil", this.perfil)
+           axios.post("/api/perfil", this.perfil)
                 .then(({ data }) => {
                     perfilId = data.id;
 
-                    return axios.post("http://127.0.0.1:8000/api/usuario", {
+                    return axios.post("/api/usuario", {
                         ...this.usuario,
                         perfil_id: perfilId
                     });
@@ -104,11 +104,11 @@ export default {
                     usuarioId = data.id;
 
                     return Promise.all(this.enderecos.map(endereco => {
-                        return axios.post("http://127.0.0.1:8000/api/endereco", endereco)
+                        return axios.post("/api/endereco", endereco)
                             .then(({ data }) => {
                                 enderecoIds.push(data.id);
 
-                                return axios.post("http://127.0.0.1:8000/api/endereco_usuario", {
+                                return axios.post("/api/endereco_usuario", {
                                     usuario_id: usuarioId,
                                     endereco_id: data.id
                                 });
@@ -119,8 +119,13 @@ export default {
                     alert("Usuário Cadastrado com sucesso!");
                 })
                 .catch(error => {
-                    console.error("Ocorreu um erro:", error);
-                });
+                    if (error.response) {
+                        console.error("Erro na requisição:", error.response.data);
+                        alert(JSON.stringify(error.response.data.errors || error.response.data));
+                    } else {
+                        console.error("Erro inesperado:", error.message);
+                    }
+                    });
         },
         // Adiciona um novo endereço à lista de endereços do usuário
         addEndereco() {

@@ -68,7 +68,7 @@ export default {
     // Carrega os dados do usuário
     loadUsuario() {
       const userId = this.$route.params.id;
-      axios.get(`http://127.0.0.1:8000/api/usuario/${userId}`)
+      axios.get(`/api/usuario/${userId}`)
         .then(({ data }) => {
           this.usuario = data;
         })
@@ -103,7 +103,7 @@ export default {
     updateData() {
       const userId = this.$route.params.id;
 
-      axios.put(`http://127.0.0.1:8000/api/usuario/${userId}`, this.usuario)
+      axios.put(`/api/usuario/${userId}`, this.usuario)
         .then(response => {
           alert("Usuário atualizado com sucesso!");
         })

@@ -79,11 +79,41 @@ class UsuarioController extends Controller
      */
     
     // Cria um novo usuário
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nome' => 'required|string',
+            'email' => 'required|email|unique:usuarios,email',
+            'cpf' => 'required|string|unique:usuarios,cpf',
+            'perfil_id' => 'required|exists:perfil,id',
+            'enderecos' => 'array',
+            'enderecos.*.rua' => 'required|string',
+            'enderecos.*.cidade' => 'required|string',
+            'enderecos.*.estado' => 'required|string',
+            'enderecos.*.cep' => 'required|string',
+        ]);
 
-        return $this->usuario->create($request->all());
-        return response()->json(['id' => $perfil->id]);
+        // Cria usuário usando perfil_id direto
+        $usuario = Usuario::create([
+            'nome' => $request->input('nome'),
+            'email' => $request->input('email'),
+            'cpf' => $request->input('cpf'),
+            'perfil_id' => $request->input('perfil_id'),
+        ]);
+
+        // Cria e associa os endereços, se houver
+        if ($request->has('enderecos')) {
+            $enderecos_ids = [];
+            foreach ($request->input('enderecos') as $enderecoData) {
+                $endereco = Endereco::create($enderecoData);
+                $enderecos_ids[] = $endereco->id;
+            }
+            $usuario->enderecos()->sync($enderecos_ids);
+        }
+
+        return response()->json($usuario->load('perfil', 'enderecos'), 201);
     }
+
 
      /**
      * @OA\Get(

@@ -75,8 +75,15 @@ class PerfilController extends Controller
     // Cria um novo usuário
     public function store(Request $request)
     {
-        return $this->perfil->create($request->all());
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+
+        $perfil = Perfil::create($request->all());
+
+        return response()->json(['id' => $perfil->id], 201);
     }
+
 
      /**
      * @OA\Put(

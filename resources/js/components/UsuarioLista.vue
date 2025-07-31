@@ -75,7 +75,7 @@ export default {
   methods: {
     // Carrega a lista de usuários
     loadUsuarios() {
-      axios.get("http://127.0.0.1:8000/api/usuario")
+      axios.get("/api/usuario")
         .then(({ data }) => {
           this.usuarios = data;
         })
@@ -86,7 +86,7 @@ export default {
     // Método para excluir um usuário
     deleteUsuario(id) {
       if (confirm('Tem certeza que deseja excluir este usuário?')) {
-        axios.delete(`http://127.0.0.1:8000/api/usuario/${id}`)
+        axios.delete(`/api/usuario/${id}`)
           .then(() => {
             this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);
             alert("Usuário excluído com sucesso!");
